@@ -38,9 +38,9 @@ class PassportController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
             'password' => 'required',
-            'c_password' => 'required|same:password',
+            // 'c_password' => 'required|same:password',
             'address' => 'required',
             'phone' => 'required'
         ]);
