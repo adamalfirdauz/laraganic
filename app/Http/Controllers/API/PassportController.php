@@ -53,8 +53,8 @@ class PassportController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $user->assignRole('user');
+        $success =  $user;
         $success['token'] =  $user->createToken('Yourganic', ['user-detail','make-transaction','access-wallet'])->accessToken;
-        $success['name'] =  $user->name;
 
         return response()->json(['success'=>$success], $this->successStatus);
     }
