@@ -51,19 +51,22 @@ class PassportController extends Controller
             'address' => 'required',
             'phone' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);            
         }
-
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $user->assignRole('user');
         $success =  $user;
         $success['token'] =  $user->createToken('Yourganic', ['user-detail','make-transaction','access-wallet'])->accessToken;
-
-        return response()->json(['success'=>$success], $this->successStatus);
+        return fractal()
+            ->item($success)
+            ->transformWith(new UserTransformer)
+            ->addMeta([
+                'token' => $success['token'],
+            ])
+            ->toArray();
     }
 
     /**
