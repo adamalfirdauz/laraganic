@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Transformers\UserTransformer;
+use Illuminate\Support\Facades\DB;
 
 class PassportController extends Controller
 {
@@ -18,15 +20,20 @@ class PassportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-            $user = Auth::user();
-            // $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json($user);
+    public function login(Request $request, User $user){
+        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password]))
+        {
+            return response()->json(['error' => 'Email atau password salah'], 401);
         }
-        else{
-            return response()->json(['error'=>'Unauthorised'], 401);
-        }
+        $user = $user->find(Auth::user()->id);
+        $token = $user->createToken('Yourganic',['user-detail','make-transaction','access-wallet'])->accessToken;
+        return fractal()
+            ->item($user)
+            ->transformWith(new UserTransformer)
+            ->addMeta([
+                'token' => $token,
+            ])
+            ->toArray();
     }
 
     /**
@@ -68,5 +75,21 @@ class PassportController extends Controller
     {
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
+    }
+
+    /**
+     * logout api
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout() {
+        $accessToken = Auth::user()->token();
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+        $accessToken->revoke();
+        return response()->json("success", 202);
     }
 }
