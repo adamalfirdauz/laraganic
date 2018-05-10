@@ -11,8 +11,26 @@
 |
 */
 
+/** 
+*   This is an example of route and function. Dont make function on this file.
+*   It will make this file big and unreadable. Make it in Controller, e.g ExampleController,
+*   1.  Create controller via terminal "php artisan make:controller ExampleController". 
+*       You can found this controller on App/Http/Controller/ directory.
+*   2.  Make a public function there, e.g ExampleFunction(){}
+*   3.  Call it here using syntax: ExampleController@ExampleFunction, and replace function(){..} below.
+*/
+/** EXAMPLE START */
+Route::get('/example', function(){
+    $head = (object) array();
+    $head->title = "Example Page";
+    $head->subtitle = "Example Subtitle";
+    return view('pages.example', compact('head'));
+});
+/** END OF EXAMPLE */
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('templates.index');
 });
 
 Auth::routes();
