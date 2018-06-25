@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
+use Validator;
+
 
 class ProductController extends Controller
 {
@@ -29,8 +32,9 @@ class ProductController extends Controller
             'stock' => 'required',
             'category' => 'required'
         ]);
+        // dd($request);
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json(['error'=>$validator->errors()], 401);
         }
         $input = $request->all();
         $success = $item->create($input);
