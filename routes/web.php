@@ -30,16 +30,31 @@ Route::get('/example', function(){
 
 
 Route::get('/', function () {
-    return view('templates.index');
-});
+    return redirect('/dashboard');
+    // return view('templates.index');
+})->middleware('auth');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', function(){
+    return view('pages.login');
+})->name('test');
 
-Route::group(['middleware'=>['auth', 'role:admin']], function(){
-    Route::prefix('item')->name('item.')->group(function(){
-        Route::post('add', 'ItemController@create')->name('add');
+Route::group(['middleware'=>['auth']], function(){
+    Route::prefix('dashboard')->name('dashboard.')->group(function(){
+        Route::get('/', 'DashboardController@dashboard')->name('index');
+    });
+    Route::prefix('product')->name('product.')->group(function(){
+        Route::get('page-add', 'ProductController@pageAdd')->name('page.add');
+        Route::post('new-product', 'ProductController@createProduct')->name('new');
+        Route::get('page-update', 'ProductController@pageUpdate')->name('page.update');
+    });
+    Route::prefix('transaction')->name('transaction.')->group(function(){
+        Route::get('page-enter', 'TransactionController@pageEnter')->name('page.enter');
+        Route::get('page-sending', 'TransactionController@pageSending')->name('page.sending');
+        Route::get('page-accepted', 'TransactionController@pageAccepted')->name('page.accepted');
+        Route::get('page-archive', 'TransactionController@pageArchive')->name('page.archive');
     });
 });
 
