@@ -29,7 +29,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'qty' => 'required',
-            'stock' => 'required',
+            'description' => 'required',
             'category' => 'required'
         ]);
         // dd($request);

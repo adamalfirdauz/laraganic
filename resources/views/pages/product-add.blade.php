@@ -39,17 +39,16 @@
                 </div>
                 <div class="form-group">
                   <label>Stok</label>
-                  <input type="text" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="stock">
+                  <input type="text" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="qty">
                 </div>
                 <!-- textarea -->
                 <div class="form-group">
                   <label>Keterangan</label>
-                  <textarea class="form-control" rows="3" placeholder="Masukan keterangan ..." name="qty"></textarea>
+                  <textarea class="form-control" rows="3" placeholder="Masukan keterangan ..." name="description"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Gambar</label>
                   <input type="file" id="exampleInputFile">
-
                   <p class="help-block">Gambar dari produk.</p>
                 </div>
                 <button class="btn btn-block btn-primary btn-flat" type="submit">Tambahkan</button>

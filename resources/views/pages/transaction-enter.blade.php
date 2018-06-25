@@ -39,10 +39,10 @@
             <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Nama</th>
+                <th>Nama Pembeli</th>
+                <th>Nama Barang</th>
                 <th>Harga</th>
-                <th>Kategori</th>
-                <th>Stok</th>
+                <th>Kuantitas</th>
                 <th>Aksi</th>
             </tr>
             </thead>
