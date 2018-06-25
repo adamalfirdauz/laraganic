@@ -4,7 +4,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
   @include('templates.part.header')
-  @include('templates.part.sidebar')  
+  @include('templates.part.sidebar')
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
