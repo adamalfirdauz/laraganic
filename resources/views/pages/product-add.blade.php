@@ -43,7 +43,17 @@
                 </div>
                 <div class="form-group">
                   <label>Unit</label>
-                  <input type="text" class="form-control" placeholder="Jenis unit yang diinginkan" name="unit">
+                  <select class="form-control" name="unit">
+                    <option value="kg">Kg</option>
+                    <option value="gram">Gram</option>
+                    <option value="liter">Liter</option>
+                    <option value="ikat">Ikat</option>
+                    <option value="buah">Buah</option>
+                    <option value="ons">Ons</option>
+                    <option value="siung">Siung</option>
+                    <option value="pcs">Pcs</option>
+                    <option value="box">Box</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label>Nutrisi</label>
