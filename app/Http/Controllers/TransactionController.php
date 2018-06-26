@@ -10,7 +10,7 @@ class TransactionController extends Controller
         $sidebar = 31;
         $head = (object) array();
         $head->title = "Transaksi";
-        $head->subtitle = "Daftar Transaksi Masuk";
+        $head->subtitle = "Daftar Transaksi";
         return view('pages.transaction-enter', compact('sidebar', 'head'));
     }
     public function pageSending(){

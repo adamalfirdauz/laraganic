@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 @include('templates.part.head')
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 <div class="wrapper">
   @include('templates.part.header')
   @include('templates.part.sidebar')
@@ -12,6 +12,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
+      @include('templates.part.alert')
       <!-- Small boxes (Stat box) -->
       @yield('content')
     </section>

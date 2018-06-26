@@ -45,18 +45,9 @@
           </ul>
         </li>
         <li class="@if ($sidebar>30 && $sidebar<40) active @endif treeview">
-          <a href="#">
+          <a href="{{route('transaction.page.enter')}}">
             <i class="fa fa-money"></i> <span>Transaksi</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
           </a>
-          <ul class="treeview-menu">
-            <li @if ($sidebar==31) class="active" @endif><a href="{{route('transaction.page.enter')}}"><i class="fa fa-circle-o"></i>Masuk</a></li>
-            <li @if ($sidebar==32) class="active" @endif><a href="{{route('transaction.page.sending')}}"><i class="fa fa-circle-o"></i>Dikirim</a></li>
-            <li @if ($sidebar==33) class="active" @endif><a href="{{route('transaction.page.accepted')}}"><i class="fa fa-circle-o"></i>Diterima</a></li>
-            <li @if ($sidebar==34) class="active" @endif><a href="{{route('transaction.page.archive')}}"><i class="fa fa-circle-o"></i>Arsip</a></li>
-          </ul>
         </li>
       </ul>
     </section>

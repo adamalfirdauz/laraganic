@@ -38,6 +38,6 @@ class ProductController extends Controller
         }
         $input = $request->all();
         $success = $item->create($input);
-        return response()->json(['success'=>$success]);
+        return redirect('product/page-add')->with('success', 'Produk berhasil ditambahkan.');
     }
 }
