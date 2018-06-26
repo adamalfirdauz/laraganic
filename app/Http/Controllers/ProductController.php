@@ -35,14 +35,24 @@ class ProductController extends Controller
             'price' => 'required',
             'stock' => 'required',
             'description' => 'required',
-            'category' => 'required'
+            'category' => 'required',
+            'unit' => 'required',
+            'nutrition' => 'required',
+            'img' => 'required'
         ]);
-        // dd($request);
+        //  dd($request);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
         $input = $request->all();
         $success = $item->create($input);
+        $img = $request->file('img')->store('items/'.$success->id);
+        // dd($img);
+        $success->img=$img;
+        $success->save();
+        
         return redirect('product/page-add')->with('success', 'Produk berhasil ditambahkan.');
     }
+
+
 }
