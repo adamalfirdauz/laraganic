@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transaction;
 use Auth;
+use Storage;
 use App\Transformers\TransactionTransformer;
 
 class TransactionAPIController extends Controller
@@ -34,6 +35,40 @@ class TransactionAPIController extends Controller
         }
         // String Random Function end
         $transaction->code =  $randomString . $transaction->id;
+        $transaction->save();
+        return fractal()
+            ->item($transaction)
+            ->transformWith(new TransactionTransformer)
+            ->toArray();
+    }
+
+    public function getAll(){
+        $user = Auth::user();
+        $transactions = Transaction::where('user_id', '=', $user->id)->get();
+        // return $transactions;
+        return fractal()
+            ->collection($transactions)
+            ->transformWith(new TransactionTransformer)
+            ->toArray();
+    }
+
+    public function update(Request $request){
+        $user = Auth::user();
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        $transaction = Transaction::where('id', '=', $request->id)->first();
+        if($request->status == 'done'){
+            $transaction->status = 5;
+        }
+        if($request->hasFile('payment_proof')){
+            if($transaction->payment_proof){
+                Storage::delete($transaction->payment_proof);
+            }
+            $payment_proof = $request->file('payment_proof')->store('transaction/payment_proof/'.$transaction->code);
+            $transaction->payment_proof = $payment_proof;
+            $transaction->status = 2;
+        }
         $transaction->save();
         return fractal()
             ->item($transaction)
