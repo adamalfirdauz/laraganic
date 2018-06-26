@@ -33,7 +33,7 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'price' => 'required',
-            'qty' => 'required',
+            'stock' => 'required',
             'description' => 'required',
             'category' => 'required'
         ]);
