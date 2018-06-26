@@ -19,12 +19,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'API\PassportController@login');
 Route::post('register', 'API\PassportController@register');
+Route::post('profile/update', 'API\PassportController@update')->middleware('auth:api');
 Route::post('logout', 'API\PassportController@logout')->middleware('auth:api');
 
 Route::group(['middleware' => ['auth:api','role:user']], function(){
     Route::post('get-user-details', 'API\PassportController@getDetails')->middleware('scope:user-detail');
     Route::post('add-item-to-cart', 'CartController@add');
     Route::post('get-cart-content', 'CartController@content');
+});
+Route::group(['middleware' => ['auth:api','role:user']], function(){
+    Route::post('transaction/create', 'TransactionAPIController@create');
 });
 
 

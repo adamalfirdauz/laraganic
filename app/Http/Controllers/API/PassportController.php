@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Storage;
 use App\Transformers\UserTransformer;
 use Illuminate\Support\Facades\DB;
 
@@ -94,5 +95,39 @@ class PassportController extends Controller
             ]);
         $accessToken->revoke();
         return response()->json("success", 202);
+    }
+
+    public function update(Request $request){
+        $this->validate($request, [
+            'email' => 'email',
+            'password' => 'min:6',
+            'confirm_password' => 'same:password',
+        ]);
+        $user = Auth::user();
+        if($request->name)
+            $user->name = $request->name;
+        if($request->email)
+            $user->email = $request->email;
+        if($request->address)
+            $user->address = $request->address;
+        if($request->phone)
+            $user->phone = $request->phone;
+        if($request->password && $request->confirm_password)
+            $user->password = bcrypt($request->password);
+        if($request->hasFile('img')){
+            if($user->img){
+                Storage::delete($user->img);
+            }
+            $img = $request->file('img')->store('users/avatars/'.$user->id);
+            $user->img = $img;
+        }
+        $user->save();
+        return fractal()
+            ->item($user)
+            ->transformWith(new UserTransformer)
+            ->addMeta([
+                'token' => Auth::user()->token(),
+            ])
+            ->toArray();
     }
 }

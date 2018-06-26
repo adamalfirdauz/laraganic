@@ -13,6 +13,7 @@ class UserTransformer extends TransformerAbstract{
             'email' => $user->email,
             'address' => $user->address,
             'phone' => $user->phone,
+            'img' => 'storage/'.$user->img,
         ];
     }
 
