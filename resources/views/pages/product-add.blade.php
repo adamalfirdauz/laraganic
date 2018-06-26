@@ -39,12 +39,12 @@
                 </div>
                 <div class="form-group">
                   <label>Stok</label>
-                  <input type="text" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="qty">
+                  <input type="text" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="stock">
                 </div>
                 <!-- textarea -->
                 <div class="form-group">
-                  <label>Keterangan</label>
-                  <textarea class="form-control" rows="3" placeholder="Masukan keterangan ..." name="description"></textarea>
+                  <label>Deskripsi</label>
+                  <textarea class="form-control" rows="3" placeholder="Masukan Deskripsi ..." name="description"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Gambar</label>

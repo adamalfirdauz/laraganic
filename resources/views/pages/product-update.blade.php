@@ -40,9 +40,9 @@
             <thead>
             <tr>
                 <th>Nama</th>
-                <th>Harga</th>
-                <th>Kategori</th>
+                <th>Harga/Unit</th>
                 <th>Stok</th>
+                <th>Kategori</th>
                 <th>Edit</th>
             </tr>
             </thead>
@@ -50,9 +50,9 @@
                 @foreach ($items as $item)
                 <tr>
                     <td>{{$item->name}}</td>
-                    <td>Rp 25.000/kg</td>
-                    <td>Buah-buahan</td>
-                    <td>1000 kg</td>
+                    <td>Rp {{$item->price}}/{{$item->unit}}</td>
+                    <td>{{$item->stock}} {{$item->unit}}</td>
+                    <td>{{$item->category}}</td>
                     <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$item->id}}" data-toggle="modal">Edit</button></td>
                     <div class="modal fade" id="item{{$item->id}}">
                         <div class="modal-dialog">
@@ -81,9 +81,9 @@
             <tr>
                 <th>Nama</th>
                 <th>Harga</th>
-                <th>Kategori</th>
                 <th>Stok</th>
-                <th>Aksi</th>
+                <th>Kategori</th>
+                <th>Edit</th>
             </tr>
             </tfoot>
             </table>
