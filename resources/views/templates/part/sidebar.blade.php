@@ -44,7 +44,7 @@
             <li @if ($sidebar==22) class="active" @endif><a href="{{route('product.page.update')}}"><i class="fa fa-circle-o"></i>Update Produk</a></li>
           </ul>
         </li>
-        <li class="@if ($sidebar>30 && $sidebar<40) active @endif treeview">
+        <li class="@if ($sidebar>30 && $sidebar<40) active @endif">
           <a href="{{route('transaction.page.enter')}}">
             <i class="fa fa-money"></i> <span>Transaksi</span>
           </a>

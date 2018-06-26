@@ -57,6 +57,11 @@
                         <tr>
                             <th>Nama</th>
                             <th>Kode Transaksi</th>
+                            <th>Nama Pembeli</th>
+                            <th>Nama Item</th>
+                            <th>Harga</th>
+                            <th>Kuantitas</th>
+                            <th>Total</th>
                             {{-- <th>Kategori</th>
                             <th>Stok</th> --}}
                             <th></th>
@@ -69,6 +74,11 @@
                             <td>AX{{$i}}</td>
                             {{-- <td>Buah-buahan</td>
                             <td>1000 kg</td> --}}
+                            <td>Octav</td>
+                            <td>Asparagus</td>
+                            <td>5.000</td>
+                            <td>5</td>
+                            <td>25.000</td>
                             <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Detail</button></td>
                             <div class="modal fade" id="item{{$i}}">
                                 <div class="modal-dialog">
@@ -97,6 +107,11 @@
                         <tr>
                             <th>Nama</th>
                             <th>Kode Transaksi</th>
+                            <th>Nama Pembeli</th>
+                            <th>Nama Item</th>
+                            <th>Harga</th>
+                            <th>Kuantitas</th>
+                            <th>Total</th>
                             {{-- <th>Kategori</th>
                             <th>Stok</th> --}}
                             <th></th>
