@@ -107,9 +107,13 @@
                                                 <input type="text" class="form-control" value="{{$item->nutrition}}" name="nutrition">
                                             </div>
                                             @if ($item->img != NULL)
-                                            <div class="row" id="modalRow">
-                                                <span id="modalInfo">Gambar Produk</span>
-                                                <img id="modalEntry" src="{!! asset('storage/app/'.$item->img) !!}" height="300">
+                                            <div class="form-group">
+                                                <label>Gambar Produk</label>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <img src="{{ asset('storage/'.$item->img) }}" height="150">
+                                                    </div>
+                                                </div>
                                             </div>
                                             @endif
                                             <div class="form-group">
