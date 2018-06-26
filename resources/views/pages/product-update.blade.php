@@ -43,24 +43,24 @@
                 <th>Harga</th>
                 <th>Kategori</th>
                 <th>Stok</th>
-                <th>Aksi</th>
+                <th>Edit</th>
             </tr>
             </thead>
             <tbody>
-                @for ($i = 1; $i <= 35; $i++)
+                @foreach ($items as $item)
                 <tr>
-                    <td>Apel</td>
+                    <td>{{$item->name}}</td>
                     <td>Rp 25.000/kg</td>
                     <td>Buah-buahan</td>
                     <td>1000 kg</td>
-                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Edit</button></td>
-                    <div class="modal fade" id="item{{$i}}">
+                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$item->id}}" data-toggle="modal">Edit</button></td>
+                    <div class="modal fade" id="item{{$item->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Default Modal {{$i}}</h4>
+                                    <h4 class="modal-title">Default Modal {{$item->id}}</h4>
                                 </div>
                             <div class="modal-body">
                                 <p>One fine body&hellip;</p>
@@ -75,7 +75,7 @@
                         <!-- /.modal-dialog -->
                     </div>
                 </tr>
-                @endfor
+                @endforeach
             </tbody>
             <tfoot>
             <tr>

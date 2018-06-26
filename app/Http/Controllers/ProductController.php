@@ -21,7 +21,12 @@ class ProductController extends Controller
         $head = (object) array();
         $head->title = "Produk";
         $head->subtitle = "Update Produk";
-        return view('pages.product-update', compact('sidebar', 'head'));
+        $items = Item::get();
+        return view('pages.product-update', compact(
+            'sidebar', 
+            'head', 
+            'items'
+        ));
     }
 
     public function createProduct(Request $request, Item $item){
