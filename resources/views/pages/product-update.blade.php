@@ -40,7 +40,7 @@
             <thead>
             <tr>
                 <th>Nama</th>
-                <th>Harga/Unit</th>
+                <th>Harga/Satuan</th>
                 <th>Stok</th>
                 <th>Kategori</th>
                 <th>Edit</th>
@@ -57,18 +57,84 @@
                     <div class="modal fade" id="item{{$item->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="box box-info">
+                                    <div class="box-header with-border">
+                                        <h4>Edit Produk {{$item->name}}</h4>
+                                    </div>
+                                    <div class="box-body">
+                                        <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$item->id}}">
+                                            <div class="form-group">
+                                                <label>Nama</label>
+                                                <input type="text" class="form-control" value="{{$item->name}}" name="name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Harga(Rupiah)</label>
+                                                <input type="text" class="form-control" value="{{$item->price}}" name="price">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Kategori</label>
+                                                <select class="form-control" name="category">
+                                                    <option @if($item->category == "buah") selected @endif value="buah">Buah-Buahan</option>
+                                                    <option @if($item->category == "sayuran") selected @endif value="sayuran">Sayuran</option>
+                                                    <option @if($item->category == "menu") selected @endif value="menu">Menu Sehat</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Stok</label>
+                                                <input type="text" class="form-control" value="{{$item->stock}}" name="stock">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Satuan</label>
+                                                <select class="form-control" name="unit">
+                                                    <option @if($item->unit == "kg") selected @endif value="kg">Kg</option>
+                                                    <option @if($item->unit == "liter") selected @endif value="liter">Liter</option>
+                                                    <option @if($item->unit == "gram") selected @endif value="gram">Gram</option>
+                                                    <option @if($item->unit == "ikat") selected @endif value="ikat">Ikat</option>
+                                                    <option @if($item->unit == "buah") selected @endif value="buah">Buah</option>
+                                                    <option @if($item->unit == "siung") selected @endif value="siung">Siung</option>
+                                                    <option @if($item->unit == "pcs") selected @endif value="pcs">Pcs</option>
+                                                    <option @if($item->unit == "box") selected @endif value="box">Box</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Deskripsi</label>
+                                                <textarea class="form-control" rows="3" name="description">{{$item->description}}</textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nutrisi</label>
+                                                <input type="text" class="form-control" value="{{$item->nutrition}}" name="nutrition">
+                                            </div>
+                                            @if ($item->img != NULL)
+                                            <div class="row" id="modalRow">
+                                                <span id="modalInfo">Gambar Produk</span>
+                                                <img id="modalEntry" src="{!! asset('storage/app/'.$item->img) !!}" height="300">
+                                            </div>
+                                            @endif
+                                            <div class="form-group">
+                                                <label>@if ($item->img == NULL) Tambahkan @else Ubah @endif Gambar Produk</label>
+                                                <input type="file" id="exampleInputFile" name="img" accept="image/*">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer box-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>    
+                                        </form>
+                                    </div>
+                                </div>
+                                {{-- <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Default Modal {{$item->id}}</h4>
+                                    <h4 class="modal-title">Edit Produk ({{$item->name}})</h4>
                                 </div>
-                            <div class="modal-body">
-                                <p>One fine body&hellip;</p>
-                            </div>
+                                <div class="modal-body">
+
+                                </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                                </div> --}}
                             </div>
                             <!-- /.modal-content -->
                         </div>
@@ -80,7 +146,7 @@
             <tfoot>
             <tr>
                 <th>Nama</th>
-                <th>Harga</th>
+                <th>Harga/Satuan</th>
                 <th>Stok</th>
                 <th>Kategori</th>
                 <th>Edit</th>

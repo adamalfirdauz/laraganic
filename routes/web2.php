@@ -49,7 +49,6 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('page-add', 'ProductController@pageAdd')->name('page.add');
         Route::post('new-product', 'ProductController@createProduct')->name('new');
         Route::get('page-update', 'ProductController@pageUpdate')->name('page.update');
-        Route::post('update-product', 'ProductController@updateProduct')->name('update');
     });
     Route::prefix('transaction')->name('transaction.')->group(function(){
         Route::get('page-enter', 'TransactionController@pageEnter')->name('page.enter');
