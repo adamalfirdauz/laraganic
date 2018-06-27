@@ -55,7 +55,6 @@
                 <table id="tableMasuk" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Nama</th>
                             <th>Kode Transaksi</th>
                             <th>Nama Pembeli</th>
                             <th>Nama Item</th>
@@ -68,25 +67,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 1; $i <= 35; $i++)
+                        @foreach ($transactions as $transaction)
+                        <?php if($transaction->status == "1") { ?>
                         <tr>
-                            <td>Adam Firdaus</td>
-                            <td>AX{{$i}}</td>
-                            {{-- <td>Buah-buahan</td>
-                            <td>1000 kg</td> --}}
-                            <td>Octav</td>
-                            <td>Asparagus</td>
-                            <td>5.000</td>
-                            <td>5</td>
-                            <td>25.000</td>
-                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Detail</button></td>
-                            <div class="modal fade" id="item{{$i}}">
+                            
+                            <td>{{$transaction->code}}</td>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                            <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
+                            <td>{{$transaction->price}}</td>
+                            <td>{{$transaction->qty}}</td>
+                            <td>{{$transaction->price*$transaction->qty}}</td>
+                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
+                            <div class="modal fade" id="item{{$transaction->id}}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Default Modal {{$i}}</h4>
+                                            <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
                                         </div>
                                     <div class="modal-body">
                                         <p>One fine body&hellip;</p>
@@ -101,11 +99,11 @@
                                 <!-- /.modal-dialog -->
                             </div>
                         </tr>
-                        @endfor
+                        <?php }?>
+                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Nama</th>
                             <th>Kode Transaksi</th>
                             <th>Nama Pembeli</th>
                             <th>Nama Item</th>
@@ -121,163 +119,202 @@
             </div>
             <div class="tab-pane" id="tab_2">
                 <table id="tableDikirim" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 1; $i <= 35; $i++)
-                        <tr>
-                            <td>Adam Firdaus</td>
-                            <td>AX{{$i}}</td>
-                            {{-- <td>Buah-buahan</td>
-                            <td>1000 kg</td> --}}
-                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Detail</button></td>
-                            <div class="modal fade" id="item{{$i}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Default Modal {{$i}}</h4>
+                        <thead>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $transaction)
+                                <?php if($transaction->status == "2") { ?>
+                                <tr>
+                                    
+                                    <td>{{$transaction->code}}</td>
+                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
+                                    <td>{{$transaction->price}}</td>
+                                    <td>{{$transaction->qty}}</td>
+                                    <td>{{$transaction->price*$transaction->qty}}</td>
+                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
+                                    <div class="modal fade" id="item{{$transaction->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                </div>
+                                            <div class="modal-body">
+                                                <p>One fine body&hellip;</p>
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
                                         </div>
-                                    <div class="modal-body">
-                                        <p>One fine body&hellip;</p>
+                                        <!-- /.modal-dialog -->
                                     </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                        </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                                </tr>
+                                <?php }?>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_3">
                 <table id="tableSelesai" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 1; $i <= 35; $i++)
-                        <tr>
-                            <td>Adam Firdaus</td>
-                            <td>AX{{$i}}</td>
-                            {{-- <td>Buah-buahan</td>
-                            <td>1000 kg</td> --}}
-                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Detail</button></td>
-                            <div class="modal fade" id="item{{$i}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Default Modal {{$i}}</h4>
+                        <thead>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $transaction)
+                                <?php if($transaction->status == "3") { ?>
+                                <tr>
+                                    
+                                    <td>{{$transaction->code}}</td>
+                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
+                                    <td>{{$transaction->price}}</td>
+                                    <td>{{$transaction->qty}}</td>
+                                    <td>{{$transaction->price*$transaction->qty}}</td>
+                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
+                                    <div class="modal fade" id="item{{$transaction->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                </div>
+                                            <div class="modal-body">
+                                                <p>One fine body&hellip;</p>
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
                                         </div>
-                                    <div class="modal-body">
-                                        <p>One fine body&hellip;</p>
+                                        <!-- /.modal-dialog -->
                                     </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                        </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                                </tr>
+                                <?php }?>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
             </div>
             <div class="tab-pane" id="tab_4">
                 <table id="tableArsip" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 1; $i <= 35; $i++)
-                        <tr>
-                            <td>Adam Arsip</td>
-                            <td>AX{{$i}}</td>
-                            {{-- <td>Buah-buahan</td>
-                            <td>1000 kg</td> --}}
-                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$i}}" data-toggle="modal">Detail</button></td>
-                            <div class="modal fade" id="item{{$i}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Default Modal {{$i}}</h4>
+                        <thead>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $transaction)
+                                <?php if($transaction->status == "4") { ?>
+                                <tr>
+                                    
+                                    <td>{{$transaction->code}}</td>
+                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
+                                    <td>{{$transaction->price}}</td>
+                                    <td>{{$transaction->qty}}</td>
+                                    <td>{{$transaction->price*$transaction->qty}}</td>
+                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
+                                    <div class="modal fade" id="item{{$transaction->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                </div>
+                                            <div class="modal-body">
+                                                <p>One fine body&hellip;</p>
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
                                         </div>
-                                    <div class="modal-body">
-                                        <p>One fine body&hellip;</p>
+                                        <!-- /.modal-dialog -->
                                     </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                        </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Kode Transaksi</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                                </tr>
+                                <?php }?>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Nama Item</th>
+                                    <th>Harga</th>
+                                    <th>Kuantitas</th>
+                                    <th>Total</th>
+                                    {{-- <th>Kategori</th>
+                                    <th>Stok</th> --}}
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
             </div>
             <!-- /.tab-pane -->
         </div>

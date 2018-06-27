@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
+use App\User;
+use App\Transaction;
 
 class TransactionController extends Controller
 {
@@ -11,7 +14,8 @@ class TransactionController extends Controller
         $head = (object) array();
         $head->title = "Transaksi";
         $head->subtitle = "Daftar Transaksi";
-        return view('pages.transaction-enter', compact('sidebar', 'head'));
+        $transactions = Transaction::get();
+        return view('pages.transaction-enter', compact('sidebar', 'head', 'transactions'));
     }
     public function pageSending(){
         $sidebar = 32;
@@ -34,4 +38,14 @@ class TransactionController extends Controller
         $head->subtitle = "Arsip";
         return view('pages.transaction-archive', compact('sidebar', 'head'));
     }
+
+    // public function getTransaction(){
+    //     $transactions = Transaction::get();
+    //     $item = Item::where('id', '=', '$transactions->item_id')->first()->name;
+    //     $user = User::where('id', '=', '$transactions->user_id')->first()->name;
+        
+
+    // }
+    
+    
 }
