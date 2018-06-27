@@ -15,6 +15,23 @@ class TransactionController extends Controller
         $head->title = "Transaksi";
         $head->subtitle = "Daftar Transaksi";
         $transactions = Transaction::get();
+        $transactions = $transactions->unique('code');
+        $i = 0;
+        foreach($transactions as $transaction){
+            $subtotal = 0;
+            $items = Transaction::where('code', '=', $transaction->code)->get();
+            $j = 0;
+            foreach($items as $item){
+                $subtotal += $item->price * $item->qty;
+                $temp = Item::select('name', 'category')->where('id', '=', $item->item_id)->first();
+                // dd($temp);
+                $arr[$j] = $temp;
+                $j+=1;
+            }
+            $transaction->total = $subtotal;
+            $transaction->product = $arr;
+        }
+        // dd($transactions);
         return view('pages.transaction-enter', compact('sidebar', 'head', 'transactions'));
     }
     public function pageSending(){

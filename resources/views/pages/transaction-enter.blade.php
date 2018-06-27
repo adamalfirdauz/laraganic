@@ -55,12 +55,13 @@
                 <table id="tableMasuk" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Kode Transaksi</th>
                             <th>Nama Pembeli</th>
-                            <th>Nama Item</th>
-                            <th>Harga</th>
-                            <th>Kuantitas</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            {{-- <th>Harga</th> --}}
+                            {{-- <th>Kuantitas</th> --}}
                             <th>Total</th>
+                            <th>Status</th>
                             {{-- <th>Kategori</th>
                             <th>Stok</th> --}}
                             <th></th>
@@ -68,15 +69,32 @@
                     </thead>
                     <tbody>
                         @foreach ($transactions as $transaction)
-                        <?php if($transaction->status == "1") { ?>
+                        @if($transaction->status >= 1 && $transaction->status <= 3)
                         <tr>
-                            
-                            <td>{{$transaction->code}}</td>
                             <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
-                            <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
-                            <td>{{$transaction->price}}</td>
-                            <td>{{$transaction->qty}}</td>
-                            <td>{{$transaction->price*$transaction->qty}}</td>
+                            <td>{{$transaction->code}}</td>
+                            <td>@foreach ($transaction->product as $product)
+                                <h1  class="label @if ($product->category == "buah")
+                                    bg-red
+                                @elseif ($product->category == "sayuran")
+                                    bg-green
+                                @elseif ($product->category == "menu")
+                                    bg-yellow
+                                @else
+                                    bg-maroon
+                                @endif">{{$product->name}}</h1>
+                            @endforeach</td>
+                            {{-- <td>{{$transaction->price}}</td> --}}
+                            {{-- <td>{{$transaction->qty}}</td> --}}
+                            <td>Rp {{$transaction->total}}</td>
+                            <td>
+                                @if ($transaction->status==1) 
+                                    Menunggu Pembayaran
+                                @elseif ($transaction->status==2) 
+                                    Periksa Bukti Bayar 
+                                @else
+                                    Menunggu Pengiriman
+                                @endif</td>
                             <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
                             <div class="modal fade" id="item{{$transaction->id}}">
                                 <div class="modal-dialog">
@@ -127,17 +145,18 @@
                                 <!-- /.modal-dialog -->
                             </div>
                         </tr>
-                        <?php }?>
+                        @endif
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Kode Transaksi</th>
                             <th>Nama Pembeli</th>
-                            <th>Nama Item</th>
-                            <th>Harga</th>
-                            <th>Kuantitas</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            {{-- <th>Harga</th> --}}
+                            {{-- <th>Kuantitas</th> --}}
                             <th>Total</th>
+                            <th>Status</th>
                             {{-- <th>Kategori</th>
                             <th>Stok</th> --}}
                             <th></th>
@@ -162,7 +181,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
-                                <?php if($transaction->status == "2") { ?>
+                                @if($transaction->status == "2")
                                 <tr>
                                     
                                     <td>{{$transaction->code}}</td>
@@ -221,7 +240,7 @@
                                         <!-- /.modal-dialog -->
                                     </div>
                                 </tr>
-                                <?php }?>
+                                @endif
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -257,7 +276,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
-                                <?php if($transaction->status == "3") { ?>
+                                @if($transaction->status == "3")
                                 <tr>
                                     
                                     <td>{{$transaction->code}}</td>
@@ -316,7 +335,7 @@
                                         <!-- /.modal-dialog -->
                                     </div>
                                 </tr>
-                                <?php }?>
+                                @endif
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -351,7 +370,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
-                                <?php if($transaction->status == "4") { ?>
+                                @if($transaction->status == "4")
                                 <tr>
                                     
                                     <td>{{$transaction->code}}</td>
@@ -410,7 +429,7 @@
                                         <!-- /.modal-dialog -->
                                     </div>
                                 </tr>
-                                <?php }?>
+                                @endif
                                 @endforeach
                             </tbody>
                             <tfoot>
