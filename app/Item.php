@@ -13,4 +13,19 @@ class Item extends Model
         'name', 'price',  'stock', 'category', 'unit', 'nutrition', 'img'
     ];
 
+    public function searchableAs()
+    {
+        return 'items_index';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // Customize array...
+
+        return $array;
+    }
+
+
 }
