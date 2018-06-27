@@ -81,17 +81,45 @@
                             <div class="modal fade" id="item{{$transaction->id}}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                        <div class="box-header with-border">
+                                            <h4>Detail Transaksi {{$transaction->code}}</h4>
                                         </div>
-                                    <div class="modal-body">
-                                        <p>One fine body&hellip;</p>
-                                    </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        <div class="box-body">
+                                            <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$transaction->id}}">
+                                                <div class="form-group">
+                                                    <label>Kode Transaksi</label>
+                                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nama Pembeli</label>
+                                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nama Item</label>
+                                                    <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Harga</label>
+                                                    <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Kuantitas</label>
+                                                    <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Total</label>
+                                                    <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Keterangan</label>
+                                                    <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
+                                                </div>
                                         </div>
                                     </div>
                                     <!-- /.modal-content -->
@@ -147,17 +175,45 @@
                                     <div class="modal fade" id="item{{$transaction->id}}">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                <div class="box-header with-border">
+                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
                                                 </div>
-                                            <div class="modal-body">
-                                                <p>One fine body&hellip;</p>
-                                            </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                <div class="box-body">
+                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
+                                                        <div class="form-group">
+                                                            <label>Kode Transaksi</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Pembeli</label>
+                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Item</label>
+                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Harga</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Kuantitas</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Total</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Status</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Keterangan</label>
+                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <!-- /.modal-content -->
@@ -214,17 +270,45 @@
                                     <div class="modal fade" id="item{{$transaction->id}}">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                <div class="box-header with-border">
+                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
                                                 </div>
-                                            <div class="modal-body">
-                                                <p>One fine body&hellip;</p>
-                                            </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                <div class="box-body">
+                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
+                                                        <div class="form-group">
+                                                            <label>Kode Transaksi</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Pembeli</label>
+                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Item</label>
+                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Harga</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Kuantitas</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Total</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Status</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Keterangan</label>
+                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <!-- /.modal-content -->
@@ -280,17 +364,45 @@
                                     <div class="modal fade" id="item{{$transaction->id}}">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Default Modal {{$transaction->id}}</h4>
+                                                <div class="box-header with-border">
+                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
                                                 </div>
-                                            <div class="modal-body">
-                                                <p>One fine body&hellip;</p>
-                                            </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                <div class="box-body">
+                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
+                                                        <div class="form-group">
+                                                            <label>Kode Transaksi</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Pembeli</label>
+                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Nama Item</label>
+                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Harga</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Kuantitas</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Total</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Status</label>
+                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Keterangan</label>
+                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <!-- /.modal-content -->
