@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth:api','role:user']], function(){
     Route::get('transaction/getAll', 'TransactionAPIController@getAll');
     Route::post('transaction/update', 'TransactionAPIController@update');
 });
+Route::group(['middleware' => ['auth:api','role:user']], function(){
+    Route::get('product/getAll', 'ProductApiController@getAll');
+});
 
 
 // eksperimental

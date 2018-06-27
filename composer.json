@@ -11,6 +11,7 @@
         "gloudemans/shoppingcart": "^2.5",
         "laravel/framework": "5.6.*",
         "laravel/passport": "^6.0",
+        "laravel/scout": "^4.0",
         "laravel/tinker": "^1.0",
         "spatie/laravel-fractal": "^5.3",
         "spatie/laravel-permission": "^2.12"
