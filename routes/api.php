@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:api','role:user']], function(){
 });
 Route::prefix('product')->group(function(){
     Route::get('getAll', 'ProductApiController@getAll');
+    Route::post('search', 'ProductApiController@search');
 });
 
 

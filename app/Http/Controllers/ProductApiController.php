@@ -15,9 +15,22 @@ class ProductApiController extends Controller
     }
 
     public function getAll(){
-        $item = Item::get();
+        $items = Item::get();
         return fractal()
-            ->collection($item)
+            ->collection($items)
+            ->transformWith(new ProductTransformer)
+            ->toArray();
+    }
+
+    public function search(Request $request){
+        if($request->has('search')){
+            $items = Item::search($request->search)->get();
+        }
+        else{
+            $items = Item::get();
+        }
+        return fractal()
+            ->collection($items)
             ->transformWith(new ProductTransformer)
             ->toArray();
     }
