@@ -69,7 +69,7 @@ class TransactionAPIController extends Controller
             ->collection($transactions)
             ->transformWith(new TransactionTransformer)
             ->addMeta([
-                'total' => $total,
+                $total,
             ])
             ->toArray();
     }
