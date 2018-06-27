@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:api','role:user']], function(){
     Route::post('transaction/create', 'TransactionAPIController@create');
     Route::get('transaction/getAll', 'TransactionAPIController@getAll');
     Route::post('transaction/update', 'TransactionAPIController@update');
+    Route::get('transaction/get/{code}', 'TransactionAPIController@get');
 });
 Route::prefix('product')->group(function(){
     Route::get('getAll', 'ProductApiController@getAll');

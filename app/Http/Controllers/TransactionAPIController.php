@@ -52,7 +52,30 @@ class TransactionAPIController extends Controller
     public function getAll(){
         $user = Auth::user();
         $transactions = Transaction::where('user_id', '=', $user->id)->get();
+        $transactions = $transactions->unique('code');
+        // $i=0;
+        foreach ($transactions as $transaction) {
+            $items = Transaction::where('code', '=', $transaction->code)->get();
+            $subtotal = 0;
+            foreach ($items as $item) {
+                $subtotal += $item->price * $item->qty;
+            }
+            $total[$transaction->code] = $subtotal;
+            // $i+=1;
+        }
+        // dd($transactions, $total);
         // return $transactions;
+        return fractal()
+            ->collection($transactions)
+            ->transformWith(new TransactionTransformer)
+            ->addMeta([
+                'total' => $total,
+            ])
+            ->toArray();
+    }
+
+    public function get($code){
+        $transactions = Transaction::where('code', '=', $code)->get();
         return fractal()
             ->collection($transactions)
             ->transformWith(new TransactionTransformer)
