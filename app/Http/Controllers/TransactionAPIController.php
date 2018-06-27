@@ -5,39 +5,46 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transaction;
 use Auth;
+use App\Item;
 use Storage;
 use App\Transformers\TransactionTransformer;
 
 class TransactionAPIController extends Controller
 {
-    public function create(Request $request, Transaction $transaction){
-        $this->validate($request, [
-            'item_id' => 'required',
-            'price' => 'required',
-            'qty' => 'required',
-            'status' => 'required',
-        ]);
-        $user = Auth::user();
-        $transaction = $transaction->create([
-            'user_id' => $user->id,
-            'item_id' => $request->item_id,
-            'price' => $request->price,
-            'qty' => $request->qty,
-            'status' => $request->status,
-            'msg' => $request->msg,
-        ]);
-        // String Random Function start
+    public function create(Request $requests, Transaction $transaction){
+        /** String Random Function start
+         *  Digunakan untuk kode transaksi
+         * Ukurannya 9 + id dari user
+         * */
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        // String Random Function end
-        $transaction->code =  $randomString . $transaction->id;
-        $transaction->save();
+        $user = Auth::user();
+        $code = $randomString . $user->id;
+        /** String Random End */
+        for ($i=0;$requests[$i]!=null;$i++) {
+            $request = $requests[$i];
+            // $this->validate($request, [
+            //     'item_id' => 'required',
+            //     'qty' => 'required',
+            // ]);
+            $item = Item::where('id', '=', $request['item_id'])->first();
+            $transaction = $transaction->create([
+                'code' => $code,
+                'user_id' => $user->id,
+                'item_id' => $request['item_id'],
+                'price' => $item->price,
+                'qty' => $request['qty'],
+                'status' => 1,
+                'msg' => $request['msg'],
+            ]);
+            $transactions[$i] = $transaction;
+        }
         return fractal()
-            ->item($transaction)
+            ->collection($transactions)
             ->transformWith(new TransactionTransformer)
             ->toArray();
     }
