@@ -56,6 +56,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('page-sending', 'TransactionController@pageSending')->name('page.sending');
         Route::get('page-accepted', 'TransactionController@pageAccepted')->name('page.accepted');
         Route::get('page-archive', 'TransactionController@pageArchive')->name('page.archive');
+        Route::get('{code}/{status}', 'TransactionController@updateStatus')->name('update.status');
     });
 });
 

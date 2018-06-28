@@ -28,6 +28,8 @@ class TransactionTransformer extends TransformerAbstract{
             'status' => $transaction->status,
             'msg' => $transaction->msg,
             'payment_proof' => 'storage/'.$transaction->payment_proof,
+            'created_at' => $transaction->created_at,
+            'updated_at' => $transaction->updated_at,
         ];
     }
 

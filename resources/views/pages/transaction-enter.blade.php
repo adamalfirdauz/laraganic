@@ -58,28 +58,24 @@
                             <th>Nama Pembeli</th>
                             <th>Kode Transaksi</th>
                             <th>Daftar Item</th>
-                            {{-- <th>Harga</th> --}}
-                            {{-- <th>Kuantitas</th> --}}
                             <th>Total</th>
                             <th>Status</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($transactions as $transaction)
-                        @if($transaction->status >= 1 && $transaction->status <= 3)
+                        @if($transaction->status >= 1 && $transaction->status <= 2)
                         <tr>
                             <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
                             <td>{{$transaction->code}}</td>
                             <td>@foreach ($transaction->product as $product)
                                 <h1  class="label @if ($product->category == "buah")
-                                    bg-red
-                                @elseif ($product->category == "sayuran")
                                     bg-green
-                                @elseif ($product->category == "menu")
+                                @elseif ($product->category == "sayuran")
                                     bg-yellow
+                                @elseif ($product->category == "menu")
+                                    bg-purple
                                 @else
                                     bg-maroon
                                 @endif">{{$product->name}}</h1>
@@ -89,61 +85,14 @@
                             <td>Rp {{$transaction->total}}</td>
                             <td>
                                 @if ($transaction->status==1) 
-                                    Menunggu Pembayaran
+                                    <span class="label bg-blue">Menunggu Pembayaran</span>
                                 @elseif ($transaction->status==2) 
-                                    Periksa Bukti Bayar 
-                                @else
-                                    Menunggu Pengiriman
+                                    <span class="label bg-green">Periksa Bukti Bayar</span>
                                 @endif</td>
-                            <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
-                            <div class="modal fade" id="item{{$transaction->id}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="box-header with-border">
-                                            <h4>Detail Transaksi {{$transaction->code}}</h4>
-                                        </div>
-                                        <div class="box-body">
-                                            <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$transaction->id}}">
-                                                <div class="form-group">
-                                                    <label>Kode Transaksi</label>
-                                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Nama Pembeli</label>
-                                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Nama Item</label>
-                                                    <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Harga</label>
-                                                    <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Kuantitas</label>
-                                                    <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Total</label>
-                                                    <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Status</label>
-                                                    <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Keterangan</label>
-                                                    <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
-                                                </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
+                            <td>
+                                <button class="btn btn-block btn-primary btn-flat" type="button" 
+                                data-target="#diterima{{$transaction->id}}" data-toggle="modal">Detail</button>
+                            </td>
                         </tr>
                         @endif
                         @endforeach
@@ -153,299 +102,554 @@
                             <th>Nama Pembeli</th>
                             <th>Kode Transaksi</th>
                             <th>Daftar Item</th>
-                            {{-- <th>Harga</th> --}}
-                            {{-- <th>Kuantitas</th> --}}
                             <th>Total</th>
                             <th>Status</th>
-                            {{-- <th>Kategori</th>
-                            <th>Stok</th> --}}
                             <th></th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
+            <div>
+                @foreach ($transactions as $transaction)
+                <div class="modal fade" id="diterima{{$transaction->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="box-header with-border">
+                                <h4>Detail Transaksi {{$transaction->code}}</h4>
+                            </div>
+                            <div class="box-body">
+                                <input type="hidden" name="id" value="{{$transaction->id}}">
+                                <div class="form-group">
+                                    <label>Kode Transaksi</label>
+                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Pembeli</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->address}}" name="username" disabled>
+                                </div>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 10px">No</th>
+                                            <th>Nama Item</th>
+                                            <th>Jumlah</th>
+                                            <th>Harga</th>
+                                            <th>Total</th>
+                                            <th>Pesan</th>
+                                        </tr>
+                                        <p hidden>
+                                            @php
+                                                $nomor = 1;
+                                                $items = App\Transaction::where('code', '=', $transaction->code)->get();
+                                                // dd($items);
+                                            @endphp
+                                        </p>
+                                        @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{$nomor++}}</td>
+                                            <td>{{App\Item::where('id', '=', $item->item_id)->first()->name}}</td>
+                                            <td>{{$item->qty}}</td>
+                                            <td>Rp {{$item->price}}</td>
+                                            <td>Rp {{$item->qty*$item->price}}</td>
+                                            <td>
+                                                @if ($item->msg != null)
+                                                    {{$item->msg}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+                                    <label>Bukti Pembayaran</label>
+                                    @if ($transaction->payment_proof != null)
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:table-cell; vertical-align:middle; text-align:center">
+                                            {{-- <p>{{}}</p> --}}
+                                            <img src="{{ asset('storage/'.$transaction->payment_proof) }}" height="300">
+                                        </div>
+                                    </div>
+                                    @else
+                                    <input type="text" class="form-control" disabled value="Belum Ada Bukti Pembayaran.">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="modal-footer box-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <a href="/transaction/{{$transaction->code}}/3"><button type="button" class="btn btn-primary" 
+                                    @if ($transaction->payment_proof == null)
+                                        disabled
+                                    @endif >Kirim Barang</button></a>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                @endforeach
+            </div>
             <div class="tab-pane" id="tab_2">
                 <table id="tableDikirim" class="table table-bordered table-striped">
-                        <thead>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($transactions as $transaction)
-                                @if($transaction->status == "2")
-                                <tr>
-                                    
-                                    <td>{{$transaction->code}}</td>
-                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
-                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
-                                    <td>{{$transaction->price}}</td>
-                                    <td>{{$transaction->qty}}</td>
-                                    <td>{{$transaction->price*$transaction->qty}}</td>
-                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
-                                    <div class="modal fade" id="item{{$transaction->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="box-header with-border">
-                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
-                                                        <div class="form-group">
-                                                            <label>Kode Transaksi</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Pembeli</label>
-                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Item</label>
-                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Harga</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Kuantitas</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Total</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Status</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Keterangan</label>
-                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                </tr>
+                    <thead>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($transactions as $transaction)
+                        @if($transaction->status == 3)
+                        <tr>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->address}}</td>
+                            <td>{{$transaction->code}}</td>
+                            <td>@foreach ($transaction->product as $product)
+                                <h1  class="label @if ($product->category == "buah")
+                                    bg-green
+                                @elseif ($product->category == "sayuran")
+                                    bg-yellow
+                                @elseif ($product->category == "menu")
+                                    bg-purple
+                                @else
+                                    bg-maroon
+                                @endif">{{$product->name}}</h1>
+                            @endforeach</td>
+                            {{-- <td>{{$transaction->price}}</td> --}}
+                            {{-- <td>{{$transaction->qty}}</td> --}}
+                            <td>Rp {{$transaction->total}}</td>
+                            <td>
+                                @if ($transaction->status==1) 
+                                    <span class="label bg-blue">Menunggu Pembayaran</span>
+                                @elseif ($transaction->status==2) 
+                                    <span class="label bg-green">Periksa Bukti Bayar</span>
+                                @elseif ($transaction->status==3) 
+                                    <span class="label bg-maroon">Sedang Dikirim</span>
                                 @endif
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                            </td>
+                            <td>
+                                <button class="btn btn-block btn-primary btn-flat" type="button" 
+                                data-target="#dikirim{{$transaction->id}}" data-toggle="modal">Detail</button>
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div>
+                @foreach ($transactions as $transaction)
+                <div class="modal fade" id="dikirim{{$transaction->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="box-header with-border">
+                                <h4>Detail Transaksi {{$transaction->code}}</h4>
+                            </div>
+                            <div class="box-body">
+                                <input type="hidden" name="id" value="{{$transaction->id}}">
+                                <div class="form-group">
+                                    <label>Kode Transaksi</label>
+                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Pembeli</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->address}}" name="username" disabled>
+                                </div>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 10px">No</th>
+                                            <th>Nama Item</th>
+                                            <th>Jumlah</th>
+                                            <th>Harga</th>
+                                            <th>Total</th>
+                                            <th>Pesan</th>
+                                        </tr>
+                                        <p hidden>
+                                            @php
+                                                $nomor = 1;
+                                                $items = App\Transaction::where('code', '=', $transaction->code)->get();
+                                                // dd($items);
+                                            @endphp
+                                        </p>
+                                        @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{$nomor++}}</td>
+                                            <td>{{App\Item::where('id', '=', $item->item_id)->first()->name}}</td>
+                                            <td>{{$item->qty}}</td>
+                                            <td>Rp {{$item->price}}</td>
+                                            <td>Rp {{$item->qty*$item->price}}</td>
+                                            <td>
+                                                @if ($item->msg != null)
+                                                    {{$item->msg}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+                                    <label>Bukti Pembayaran</label>
+                                    @if ($transaction->payment_proof != null)
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:table-cell; vertical-align:middle; text-align:center">
+                                            {{-- <p>{{}}</p> --}}
+                                            <img src="{{ asset('storage/'.$transaction->payment_proof) }}" height="300">
+                                        </div>
+                                    </div>
+                                    @else
+                                    <input type="text" class="form-control" disabled value="Belum Ada Bukti Pembayaran.">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="modal-footer box-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                @endforeach
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_3">
                 <table id="tableSelesai" class="table table-bordered table-striped">
-                        <thead>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($transactions as $transaction)
-                                @if($transaction->status == "3")
-                                <tr>
-                                    
-                                    <td>{{$transaction->code}}</td>
-                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
-                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
-                                    <td>{{$transaction->price}}</td>
-                                    <td>{{$transaction->qty}}</td>
-                                    <td>{{$transaction->price*$transaction->qty}}</td>
-                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
-                                    <div class="modal fade" id="item{{$transaction->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="box-header with-border">
-                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
-                                                        <div class="form-group">
-                                                            <label>Kode Transaksi</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Pembeli</label>
-                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Item</label>
-                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Harga</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Kuantitas</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Total</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Status</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Keterangan</label>
-                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                </tr>
+                    <thead>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($transactions as $transaction)
+                        @if($transaction->status == 4)
+                        <tr>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->address}}</td>
+                            <td>{{$transaction->code}}</td>
+                            <td>@foreach ($transaction->product as $product)
+                                <h1  class="label @if ($product->category == "buah")
+                                    bg-green
+                                @elseif ($product->category == "sayuran")
+                                    bg-yellow
+                                @elseif ($product->category == "menu")
+                                    bg-purple
+                                @else
+                                    bg-maroon
+                                @endif">{{$product->name}}</h1>
+                            @endforeach</td>
+                            {{-- <td>{{$transaction->price}}</td> --}}
+                            {{-- <td>{{$transaction->qty}}</td> --}}
+                            <td>Rp {{$transaction->total}}</td>
+                            <td>
+                                @if ($transaction->status==1) 
+                                    <span class="label bg-blue">Menunggu Pembayaran</span>
+                                @elseif ($transaction->status==2) 
+                                    <span class="label bg-green">Periksa Bukti Bayar</span>
+                                @elseif ($transaction->status==3) 
+                                    <span class="label bg-maroon">Sedang Dikirim</span>
+                                @elseif ($transaction->status==4) 
+                                    <span class="label bg-purple">Barang Sudah Diterima</span>
                                 @endif
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="{{$transaction->code}}/{{5}}">
+                                            <button class="btn btn-block bg-green btn-flat" type="button" 
+                                            >Arsipkan</button>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-block btn-primary btn-flat" type="button" 
+                                        data-target="#selesai{{$transaction->id}}" data-toggle="modal">Detail</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div>
+                @foreach ($transactions as $transaction)
+                <div class="modal fade" id="selesai{{$transaction->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="box-header with-border">
+                                <h4>Detail Transaksi {{$transaction->code}}</h4>
+                            </div>
+                            <div class="box-body">
+                                <input type="hidden" name="id" value="{{$transaction->id}}">
+                                <div class="form-group">
+                                    <label>Kode Transaksi</label>
+                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Pembeli</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->address}}" name="username" disabled>
+                                </div>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 10px">No</th>
+                                            <th>Nama Item</th>
+                                            <th>Jumlah</th>
+                                            <th>Harga</th>
+                                            <th>Total</th>
+                                            <th>Pesan</th>
+                                        </tr>
+                                        <p hidden>
+                                            @php
+                                                $nomor = 1;
+                                                $items = App\Transaction::where('code', '=', $transaction->code)->get();
+                                                // dd($items);
+                                            @endphp
+                                        </p>
+                                        @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{$nomor++}}</td>
+                                            <td>{{App\Item::where('id', '=', $item->item_id)->first()->name}}</td>
+                                            <td>{{$item->qty}}</td>
+                                            <td>Rp {{$item->price}}</td>
+                                            <td>Rp {{$item->qty*$item->price}}</td>
+                                            <td>
+                                                @if ($item->msg != null)
+                                                    {{$item->msg}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+                                    <label>Bukti Pembayaran</label>
+                                    @if ($transaction->payment_proof != null)
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:table-cell; vertical-align:middle; text-align:center">
+                                            {{-- <p>{{}}</p> --}}
+                                            <img src="{{ asset('storage/'.$transaction->payment_proof) }}" height="300">
+                                        </div>
+                                    </div>
+                                    @else
+                                    <input type="text" class="form-control" disabled value="Belum Ada Bukti Pembayaran.">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="modal-footer box-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                @endforeach
             </div>
             <div class="tab-pane" id="tab_4">
                 <table id="tableArsip" class="table table-bordered table-striped">
-                        <thead>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($transactions as $transaction)
-                                @if($transaction->status == "4")
-                                <tr>
-                                    
-                                    <td>{{$transaction->code}}</td>
-                                    <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
-                                    <td>{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}</td>
-                                    <td>{{$transaction->price}}</td>
-                                    <td>{{$transaction->qty}}</td>
-                                    <td>{{$transaction->price*$transaction->qty}}</td>
-                                    <td><button class="btn btn-block btn-primary btn-flat" type="button" data-target="#item{{$transaction->id}}" data-toggle="modal">Detail</button></td>
-                                    <div class="modal fade" id="item{{$transaction->id}}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="box-header with-border">
-                                                    <h4>Detail Transaksi {{$transaction->code}}</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <form action="{{route('product.update')}}" method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{$transaction->id}}">
-                                                        <div class="form-group">
-                                                            <label>Kode Transaksi</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Pembeli</label>
-                                                            <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nama Item</label>
-                                                            <input type="text" class="form-control" value="{{App\Item::where('id', '=', $transaction->item_id)->first()->name}}" name="itemname" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Harga</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Kuantitas</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Total</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->price*$transaction->qty}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Status</label>
-                                                            <input type="text" class="form-control" value="{{$transaction->status}}" name="code" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Keterangan</label>
-                                                            <input type="textarea" class="form-control" value="{{$transaction->msg}}" name="code" disabled>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                </tr>
+                    <thead>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($transactions as $transaction)
+                        @if($transaction->status == 5)
+                        <tr>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->name}}</td>
+                            <td>{{App\User::where('id', '=', $transaction->user_id)->first()->address}}</td>
+                            <td>{{$transaction->code}}</td>
+                            <td>@foreach ($transaction->product as $product)
+                                <h1  class="label @if ($product->category == "buah")
+                                    bg-green
+                                @elseif ($product->category == "sayuran")
+                                    bg-yellow
+                                @elseif ($product->category == "menu")
+                                    bg-purple
+                                @else
+                                    bg-maroon
+                                @endif">{{$product->name}}</h1>
+                            @endforeach</td>
+                            {{-- <td>{{$transaction->price}}</td> --}}
+                            {{-- <td>{{$transaction->qty}}</td> --}}
+                            <td>Rp {{$transaction->total}}</td>
+                            <td>
+                                @if ($transaction->status==1) 
+                                    <span class="label bg-blue">Menunggu Pembayaran</span>
+                                @elseif ($transaction->status==2) 
+                                    <span class="label bg-green">Periksa Bukti Bayar</span>
+                                @elseif ($transaction->status==3) 
+                                    <span class="label bg-maroon">Sedang Dikirim</span>
+                                @elseif ($transaction->status==4) 
+                                    <span class="label bg-purple">Barang Sudah Diterima</span>
+                                @elseif ($transaction->status==5) 
+                                    <span class="label bg-purple">Arsip</span>
                                 @endif
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Kode Transaksi</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Item</th>
-                                    <th>Harga</th>
-                                    <th>Kuantitas</th>
-                                    <th>Total</th>
-                                    {{-- <th>Kategori</th>
-                                    <th>Stok</th> --}}
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    {{-- <div class="col-md-6">
+                                        <button class="btn btn-block bg-green btn-flat" type="button" 
+                                        data-target="#arsip{{$transaction->id}}" data-toggle="modal">Arsipkan</button>
+                                    </div> --}}
+                                    <div class="col-md-12">
+                                        <button class="btn btn-block btn-primary btn-flat" type="button" 
+                                        data-target="#arsip{{$transaction->id}}" data-toggle="modal">Detail</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Nama Pembeli</th>
+                            <th>Alamat Penerima</th>
+                            <th>Kode Transaksi</th>
+                            <th>Daftar Item</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div>
+                @foreach ($transactions as $transaction)
+                <div class="modal fade" id="arsip{{$transaction->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="box-header with-border">
+                                <h4>Detail Transaksi {{$transaction->code}}</h4>
+                            </div>
+                            <div class="box-body">
+                                <input type="hidden" name="id" value="{{$transaction->id}}">
+                                <div class="form-group">
+                                    <label>Kode Transaksi</label>
+                                    <input type="text" class="form-control" value="{{$transaction->code}}" name="code" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Pembeli</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->name}}" name="username" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" value="{{App\User::where('id', '=', $transaction->user_id)->first()->address}}" name="username" disabled>
+                                </div>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 10px">No</th>
+                                            <th>Nama Item</th>
+                                            <th>Jumlah</th>
+                                            <th>Harga</th>
+                                            <th>Total</th>
+                                            <th>Pesan</th>
+                                        </tr>
+                                        <p hidden>
+                                            @php
+                                                $nomor = 1;
+                                                $items = App\Transaction::where('code', '=', $transaction->code)->get();
+                                                // dd($items);
+                                            @endphp
+                                        </p>
+                                        @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{$nomor++}}</td>
+                                            <td>{{App\Item::where('id', '=', $item->item_id)->first()->name}}</td>
+                                            <td>{{$item->qty}}</td>
+                                            <td>Rp {{$item->price}}</td>
+                                            <td>Rp {{$item->qty*$item->price}}</td>
+                                            <td>
+                                                @if ($item->msg != null)
+                                                    {{$item->msg}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="form-group">
+                                    <label>Bukti Pembayaran</label>
+                                    @if ($transaction->payment_proof != null)
+                                    <div class="row">
+                                        <div class="col-md-12" style="display:table-cell; vertical-align:middle; text-align:center">
+                                            {{-- <p>{{}}</p> --}}
+                                            <img src="{{ asset('storage/'.$transaction->payment_proof) }}" height="300">
+                                        </div>
+                                    </div>
+                                    @else
+                                    <input type="text" class="form-control" disabled value="Belum Ada Bukti Pembayaran.">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="modal-footer box-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                @endforeach
             </div>
             <!-- /.tab-pane -->
         </div>

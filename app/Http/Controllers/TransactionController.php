@@ -56,13 +56,14 @@ class TransactionController extends Controller
         return view('pages.transaction-archive', compact('sidebar', 'head'));
     }
 
-    // public function getTransaction(){
-    //     $transactions = Transaction::get();
-    //     $item = Item::where('id', '=', '$transactions->item_id')->first()->name;
-    //     $user = User::where('id', '=', '$transactions->user_id')->first()->name;
-        
-
-    // }
+    public function updateStatus($code, $status){
+        $transactions = Transaction::where('code', '=', $code)->get();
+        foreach($transactions as $transaction){
+            $transaction->status = $status;
+            $transaction->save();
+        }
+        return back()->with('success', 'Update status transaksi berhasil.');
+    }
     
     
 }

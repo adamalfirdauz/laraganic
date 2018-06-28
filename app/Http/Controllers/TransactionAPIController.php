@@ -87,21 +87,28 @@ class TransactionAPIController extends Controller
         $this->validate($request, [
             'id' => 'required',
         ]);
-        $transaction = Transaction::where('id', '=', $request->id)->first();
+        $code = Transaction::where('id', '=', $request->id)->first()->code;
+        $transactions = Transaction::where('code', '=', $code)->get();
         if($request->status == 'done'){
-            $transaction->status = 5;
+            foreach ($transactions as $transaction) {
+                $transaction->status = 4;
+                $transaction->save();
+            }
         }
         if($request->hasFile('payment_proof')){
+            $transaction = $transactions[0];
             if($transaction->payment_proof){
                 Storage::delete($transaction->payment_proof);
             }
             $payment_proof = $request->file('payment_proof')->store('transaction/payment_proof/'.$transaction->code);
-            $transaction->payment_proof = $payment_proof;
-            $transaction->status = 2;
+            foreach($transactions as $transaction){
+                $transaction->payment_proof = $payment_proof;
+                $transaction->status = 2;
+                $transaction->save();
+            }
         }
-        $transaction->save();
         return fractal()
-            ->item($transaction)
+            ->collection($transactions)
             ->transformWith(new TransactionTransformer)
             ->toArray();
     }
