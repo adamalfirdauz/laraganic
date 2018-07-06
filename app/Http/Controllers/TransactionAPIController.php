@@ -41,6 +41,8 @@ class TransactionAPIController extends Controller
                 'status' => 1,
                 'msg' => $request['msg'],
             ]);
+            $item->stock -= $request['qty'];
+            $item->save();
             $transactions[$i] = $transaction;
         }
         return fractal()
