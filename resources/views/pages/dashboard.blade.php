@@ -52,7 +52,7 @@
                     <p>Barang Masuk</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="ion ion-forward"></i>
                 </div>
                 
             </div>
@@ -67,7 +67,7 @@
                       <p>Barang Dibayar</p>
                   </div>
                   <div class="icon">
-                      <i class="ion ion-pie-graph"></i>
+                      <i class="ion ion-cash"></i>
                   </div>
                   
               </div>
@@ -84,7 +84,7 @@
                     <p>Barang Dikirim</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="ion ion-paper-airplane"></i>
                 </div>
                 
             </div>
@@ -100,7 +100,7 @@
                       <p>Barang Diterima</p>
                   </div>
                   <div class="icon">
-                      <i class="ion ion-pie-graph"></i>
+                      <i class="ion ion-home"></i>
                   </div>
                   
               </div>
