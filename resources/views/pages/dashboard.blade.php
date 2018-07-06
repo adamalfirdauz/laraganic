@@ -17,39 +17,9 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>{{App\User::count()}}</h3>
 
                     <p>Jumlah User</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Jumlah Produk</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <h3>44</h3>
-
-                    <p>Jumlah Order</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -60,9 +30,56 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{App\Item::count()}}</h3>
+
+                    <p>Jumlah Produk</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{App\Transaction::where("status", '=', 1)->count()}}</h3>
+
+                    <p>Barang Masuk</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+              <div class="small-box bg-purple">
+                  <div class="inner">
+                      <h3>{{App\Transaction::where("status", '=', 2)->count()}}</h3>
+  
+                      <p>Barang Dibayar</p>
+                  </div>
+                  <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                  </div>
+                  
+              </div>
+          </div>
+
+
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{App\Transaction::where("status", '=', 3)->count()}}</h3>
 
                     <p>Barang Dikirim</p>
                 </div>
@@ -73,6 +90,22 @@
             </div>
         </div>
         <!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+              <div class="small-box bg-teal">
+                  <div class="inner">
+                      <h3>{{App\Transaction::where("status", '=', 4)->count()}}</h3>
+  
+                      <p>Barang Diterima</p>
+                  </div>
+                  <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                  </div>
+                  
+              </div>
+          </div>
+
     </div>
       <!-- /.row -->
 @endsection
