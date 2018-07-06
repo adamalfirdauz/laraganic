@@ -75,6 +75,7 @@ class ProductController extends Controller
                 return back()->with('success', 'Produk berhasil diubah.');
             }
         }
+        return back()->with('success', 'Produk berhasil diubah.');
     }
 
 }
