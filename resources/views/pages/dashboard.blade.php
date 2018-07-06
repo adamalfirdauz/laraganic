@@ -93,7 +93,7 @@
 
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-              <div class="small-box bg-teal">
+              <div class="small-box bg-fuchsia">
                   <div class="inner">
                       <h3>{{App\Transaction::where("status", '=', 4)->count()}}</h3>
   
