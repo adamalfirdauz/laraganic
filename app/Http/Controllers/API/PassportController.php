@@ -5,11 +5,14 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\VerifyUser;
+use App\Mail\VerifyMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use Storage;
 use App\Transformers\UserTransformer;
-use Illuminate\Support\Facades\DB;
 
 class PassportController extends Controller
 {
@@ -58,6 +61,16 @@ class PassportController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+
+        /**
+         * Send Email Verificcation
+         */
+        $verifyUser = VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => str_random(40)
+        ]);
+        Mail::to($user->email)->send(new VerifyMail($user));
+        /* End Email Verification */
         $user->assignRole('user');
         $success =  $user;
         $success['token'] =  $user->createToken('Yourganic', ['user-detail','make-transaction','access-wallet'])->accessToken;

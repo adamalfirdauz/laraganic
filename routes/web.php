@@ -59,5 +59,5 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('{code}/{status}', 'TransactionController@updateStatus')->name('update.status');
     });
 });
-
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 //Experimental
