@@ -41,7 +41,7 @@ class ProductController extends Controller
             'nutrition' => 'required',
             'img' => 'required'
         ]);
-        //  dd($request);
+        // dd($request);
         $input = $request->all();
         $success = $item->create($input);
         $img = $request->file('img')->store('items/'.$success->id);

@@ -10,7 +10,7 @@ class Item extends Model
 {
     use Searchable;
     protected $fillable = [
-        'name', 'price',  'stock', 'category', 'unit', 'nutrition', 'img'
+        'name', 'price',  'stock', 'category', 'unit', 'nutrition', 'img', 'description'
     ];
 
     public function searchableAs()

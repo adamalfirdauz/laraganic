@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                   <label>Harga</label>
-                  <input type="text" class="form-control" placeholder="Harga" name="price">
+                  <input type="number" class="form-control" placeholder="Harga" name="price">
                   @if ($errors->has('price'))
                     <span class="invalid-feedback" style="color:red">
                       <strong>{{ $errors->first('price') }}</strong>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                   <label>Stok</label>
-                  <input type="text" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="stock">
+                  <input type="number" class="form-control" placeholder="Jumlah Stok yang Tersedia" name="stock">
                   @if ($errors->has('stock'))
                     <span class="invalid-feedback" style="color:red">
                       <strong>{{ $errors->first('stock') }}</strong>
