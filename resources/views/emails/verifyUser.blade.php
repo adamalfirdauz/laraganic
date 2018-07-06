@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome Email</title>
+    <title>Selamat Bergabung di Yourganic</title>
 </head>
 <body>
-    <h2>Welcome to the site {{$user['name']}}</h2>
+    <h2>Selamat datang {{$user['name']}} di aplikasi Yourganic</h2>
     <br/>
-    Your registered email-id is {{$user['email']}} , Please click on the below link to verify your email account
+    Kamu telah mendaftarkan diri sebagai {{$user['name']}} menggunakan {{$user['email']}} , Silahkan klik tautan berikut untuk memverifikasi akun anda.
     <br/>
-    <a href="{{url('user/verify', $user->verifyUser->token)}}">Verify Email</a>
+    <a href="{{url('user/verify', $user->verifyUser->token)}}"><button>Verify Email</button></a>
+    <br>
+    Terima kasih.
 </body>
 </html>

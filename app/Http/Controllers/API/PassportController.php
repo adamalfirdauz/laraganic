@@ -61,6 +61,7 @@ class PassportController extends Controller
         $input = $request->all();
         // dd($input);
         $input['password'] = bcrypt($input['password']);
+        $input['verified'] = false;
         $user = User::create($input);
 
         /**
