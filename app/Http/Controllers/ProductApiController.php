@@ -22,6 +22,14 @@ class ProductApiController extends Controller
             ->toArray();
     }
 
+    public function getCategory($category){
+        $items = Item::where('category','=',$category)->get();
+        return fractal()
+            ->collection($items)
+            ->transformWith(new ProductTransformer)
+            ->toArray();
+    }
+
     public function search(Request $request){
         if($request->has('search')){
             $items = Item::search($request->search)->get();

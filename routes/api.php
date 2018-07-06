@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:api','role:user']], function(){
 });
 Route::prefix('product')->group(function(){
     Route::get('getAll', 'ProductApiController@getAll');
+    Route::get('get/category/{category}', 'ProductApiController@getCategory');
     Route::post('search', 'ProductApiController@search');
 });
 
